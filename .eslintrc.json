@@ -1,3 +1,26 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "standard",
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:tailwindcss/recommended"
+  ],
+  "plugins": [
+    "tailwindcss"
+  ],
+  "rules": {
+    "camelcase": [
+      "error",
+      {
+        "allow": [
+          "Space_Grotesk"
+        ]
+      }
+    ],
+    "space-before-function-paren": [
+      "error",
+      "never"
+    ]
+  }
 }
