@@ -1,7 +1,7 @@
 import { formatAndDivideNumber, getTimestamp } from '@/lib/utils'
 import Link from 'next/link'
-import Metric from '../Metric'
-import RenderTag from '../RenderTag'
+import Metric from '../shared/Metric'
+import RenderTag from '../shared/RenderTag'
 
 interface QuestionProps {
   _id: string
