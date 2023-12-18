@@ -13,8 +13,11 @@
     "camelcase": [
       "error",
       {
+        "ignoreGlobals": true,
+        "ignoreDestructuring": true,
         "allow": [
-          "Space_Grotesk"
+          "Space_Grotesk", //! tailwindcss
+          "content_style" //! tinymce/tinymce-react'
         ]
       }
     ],
