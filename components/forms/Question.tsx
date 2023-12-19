@@ -14,16 +14,18 @@ import { Input } from '@/components/ui/input'
 import { QuestionsSchema } from '@/lib/validations'
 import { Editor } from '@tinymce/tinymce-react'
 import Image from 'next/image'
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { Badge } from '../ui/badge'
 
+const type: any = 'create'
+
 const Question = () => {
   const editorRef = useRef(null)
-
+  const [isSubmitting, setIsSubmitting] = useState(false)
   // const log = () => {
   //   if (editorRef.current) {
   //     console.log(editorRef.current.getContent())
@@ -44,6 +46,16 @@ const Question = () => {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof QuestionsSchema>) {
+    setIsSubmitting(true)
+    try {
+      //! make asynchronous call to your API -> create (edit) a question
+      //! contain all form data
+    } catch (error) {
+      console.log('Error: ', error)
+    } finally {
+      setIsSubmitting(false)
+    }
+
     // Do something with the form values.
     console.log(values)
   }
@@ -210,8 +222,18 @@ const Question = () => {
             </FormItem>
           )}
         />
-
-        <Button type="submit">Submit</Button>
+        {/* add important !text-light-900 */}
+        <Button
+          type="submit"
+          className="primary-gradient w-fit text-light-900"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <>{type === 'create' ? 'Posting...' : 'Editing...'}</>
+          ) : (
+            <>{type === 'create' ? 'Post Question' : 'Edit Question'}</>
+          )}
+        </Button>
       </form>
     </Form>
   )
