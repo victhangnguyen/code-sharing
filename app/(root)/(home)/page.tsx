@@ -7,35 +7,38 @@ import { Button } from '@/components/ui/button'
 import { HomePageFilters } from '@/constants/filters'
 import Link from 'next/link'
 
-export default function Home() {
-  const questions = [
-    {
-      _id: 'unique-identifier-5',
-      title: 'What are the top 3 challenges in machine learning?',
-      tags: [
-        { _id: 'ai', name: 'artificial-intelligence' },
-        { _id: 'algorithms', name: 'computer-science' }
-      ],
-      author: 'AI Advocate',
-      upvotes: 2109999,
-      views: 12567,
-      answers: [],
-      createdAt: new Date('2023-02-14')
-    },
-    {
-      _id: 'unique-identifier-6',
-      title: 'Explain the concept of version control in software development',
-      tags: [
-        { _id: 'git', name: 'version-control' },
-        { _id: 'software-engineering', name: 'development-practices' }
-      ],
-      author: 'DevOps Master',
-      upvotes: 10899999,
-      views: 4721,
-      answers: [],
-      createdAt: new Date('2023-01-10')
-    }
-  ]
+const questions = [
+  {
+    _id: 'unique-identifier-5',
+    title: 'What are the top 3 challenges in machine learning?',
+    tags: [
+      { _id: 'ai', name: 'artificial-intelligence' },
+      { _id: 'algorithms', name: 'computer-science' }
+    ],
+    author: 'AI Advocate',
+    upvotes: 2109999,
+    views: 12567,
+    answers: [],
+    createdAt: new Date('2023-02-14')
+  },
+  {
+    _id: 'unique-identifier-6',
+    title: 'Explain the concept of version control in software development',
+    tags: [
+      { _id: 'git', name: 'version-control' },
+      { _id: 'software-engineering', name: 'development-practices' }
+    ],
+    author: 'DevOps Master',
+    upvotes: 10899999,
+    views: 4721,
+    answers: [],
+    createdAt: new Date('2023-01-10')
+  }
+]
+
+export default async function Home() {
+
+  // const result = await getQuestions()
 
   return (
     <>

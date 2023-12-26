@@ -1,5 +1,6 @@
 'use client'
 
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -14,16 +15,22 @@ import { Input } from '@/components/ui/input'
 import { QuestionsSchema } from '@/lib/validations'
 import { Editor } from '@tinymce/tinymce-react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import React, { useRef, useState } from 'react'
 
+import { createQuestion } from '@/lib/actions/question.action'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
-import { Badge } from '../ui/badge'
 
 const type: any = 'create'
 
-const Question = () => {
+interface Props {
+  mongoUserId: string
+}
+
+const Question = ({ mongoUserId }: Props) => {
+  const router = useRouter()
   const editorRef = useRef(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   // const log = () => {
@@ -45,19 +52,27 @@ const Question = () => {
   console.log('form.getValues(tags): ', form.getValues('tags'))
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof QuestionsSchema>) {
+  const onSubmit = async (values: z.infer<typeof QuestionsSchema>) => {
     setIsSubmitting(true)
     try {
       //! make asynchronous call to your API -> create (edit) a question
       //! contain all form data
+      console.log('values: ', values)
+      //! passing values for createQuestion method
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId)
+      })
+
+      // navigate to home page
+      router.push('/')
     } catch (error) {
       console.log('Error: ', error)
     } finally {
       setIsSubmitting(false)
     }
-
-    // Do something with the form values.
-    console.log(values)
   }
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, field: any) => {
@@ -137,6 +152,8 @@ const Question = () => {
                 <Editor
                   apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
                   onInit={(evt, editor) => (editorRef.current = editor)}
+                  onBlur={field.onBlur}
+                  onEditorChange={(content) => field.onChange(content)}
                   initialValue=""
                   init={{
                     height: 350,
