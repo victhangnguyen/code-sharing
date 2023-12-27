@@ -5,40 +5,13 @@ import NoResult from '@/components/shared/NoResult'
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar'
 import { Button } from '@/components/ui/button'
 import { HomePageFilters } from '@/constants/filters'
+import { getQuestions } from '@/lib/actions/question.action'
 import Link from 'next/link'
 
-const questions = [
-  {
-    _id: 'unique-identifier-5',
-    title: 'What are the top 3 challenges in machine learning?',
-    tags: [
-      { _id: 'ai', name: 'artificial-intelligence' },
-      { _id: 'algorithms', name: 'computer-science' }
-    ],
-    author: 'AI Advocate',
-    upvotes: 2109999,
-    views: 12567,
-    answers: [],
-    createdAt: new Date('2023-02-14')
-  },
-  {
-    _id: 'unique-identifier-6',
-    title: 'Explain the concept of version control in software development',
-    tags: [
-      { _id: 'git', name: 'version-control' },
-      { _id: 'software-engineering', name: 'development-practices' }
-    ],
-    author: 'DevOps Master',
-    upvotes: 10899999,
-    views: 4721,
-    answers: [],
-    createdAt: new Date('2023-01-10')
-  }
-]
-
 export default async function Home() {
+  const result = await getQuestions({})
 
-  // const result = await getQuestions()
+  // console.log('result: ', result)
 
   return (
     <>
@@ -71,8 +44,8 @@ export default async function Home() {
       <HomeFilters />
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions.length > 0 ? (
-          questions.map((question) => {
+        {result.questions.length > 0 ? (
+          result.questions.map((question) => {
             return (
               <QuestionCard
                 key={question._id}

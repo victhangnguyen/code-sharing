@@ -15,11 +15,12 @@ import { Input } from '@/components/ui/input'
 import { QuestionsSchema } from '@/lib/validations'
 import { Editor } from '@tinymce/tinymce-react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import React, { useRef, useState } from 'react'
 
 import { createQuestion } from '@/lib/actions/question.action'
 import { zodResolver } from '@hookform/resolvers/zod'
+import path from 'path'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
@@ -31,6 +32,7 @@ interface Props {
 
 const Question = ({ mongoUserId }: Props) => {
   const router = useRouter()
+  const pathname = usePathname()
   const editorRef = useRef(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   // const log = () => {
@@ -57,13 +59,13 @@ const Question = ({ mongoUserId }: Props) => {
     try {
       //! make asynchronous call to your API -> create (edit) a question
       //! contain all form data
-      console.log('values: ', values)
       //! passing values for createQuestion method
       await createQuestion({
         title: values.title,
         content: values.explanation,
         tags: values.tags,
-        author: JSON.parse(mongoUserId)
+        author: JSON.parse(mongoUserId),
+        path: pathname
       })
 
       // navigate to home page

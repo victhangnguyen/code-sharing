@@ -2,23 +2,39 @@
 
 import Question from '@/database/question.model'
 import Tag from '@/database/tag.model'
+import User from '@/database/user.model'
+import { revalidatePath } from 'next/cache'
 import { connectToDatabase } from '../mongoose'
+import { CreateQuestionParams, GetQuestionsParams } from './shared.types'
 
-export async function createQuestion(params: any) {
+export async function getQuestions(params: GetQuestionsParams) {
+  try {
+    connectToDatabase()
+
+    const questions = await Question.find({})
+      .populate({ path: 'tags', model: Tag })
+      .populate({ path: 'author', model: User })
+      .sort({ createdAt: -1 })
+
+    return { questions }
+  } catch (error) {
+    console.log('Error: ', error)
+  }
+}
+
+export async function createQuestion(params: CreateQuestionParams) {
+  // title: string
+  // content: string
+  // tags: string[]
+  // author: Schema.Types.ObjectId | IUser
+  // path: string
+
   try {
     //! connect to Database
     connectToDatabase()
-    // title: string
-    // content: string
-    // tags: Schema.Types.ObjectId[]
-    // views: number
-    // upvotes: Schema.Types.ObjectId[]
-    // downvotes: Schema.Types.ObjectId[]
-    // author: Schema.Types.ObjectId
-    // answers: Schema.Types.ObjectId[]
-    // createdAt: Date
 
     const { title, content, tags, author, path } = params
+    console.log('path: ', path)
     // create a new Question
     const question = await Question.create({ title, content, author })
 
@@ -42,6 +58,9 @@ export async function createQuestion(params: any) {
     // Create an interaction record for the user's ask_question action
 
     // Increment author's reputation by +5 for creating a new question
+
+    //! reload page
+    revalidatePath(path)
   } catch (error) {
     console.log('Error: ', error)
   }
