@@ -1,7 +1,8 @@
-/** @type {import('next').NextConfig} */
+// @type {import('next').NextConfig}
+
 const nextConfig = {
   experimental: {
-    serverActions: true,
+    serverActions: true, //! v13
     mdxRs: true,
     serverComponentsExternalPackages: ['mongoose']
   }
