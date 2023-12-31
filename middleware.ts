@@ -1,10 +1,10 @@
 import { authMiddleware } from '@clerk/nextjs'
 
 export default authMiddleware({
+  // An array of public routes that don't require authentication.
   publicRoutes: [
     '/',
-    '/api/webhook',
-    '/api/webhooks',
+    '/api/webhook/clerk',
     '/question/:id',
     '/tags',
     '/tags/:id',
@@ -12,7 +12,8 @@ export default authMiddleware({
     '/community',
     '/jobs'
   ],
-  ignoredRoutes: ['/api/webhook', '/api/chatgpt']
+  // An array of routes to be ignored by the authentication middleware.
+  ignoredRoutes: ['/api/webhook/clerk', '/api/chatgpt']
 })
 
 export const config = {

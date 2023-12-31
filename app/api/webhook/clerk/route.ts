@@ -13,7 +13,10 @@ export async function POST(req: Request) {
       'Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local'
     )
   }
-
+  console.log(
+    'process.env.NEXT_CLERK_WEBHOOK_SECRET: ',
+    process.env.NEXT_CLERK_WEBHOOK_SECRET
+  )
   // Get the headers
   const headerPayload = headers()
   const svix_id = headerPayload.get('svix-id')

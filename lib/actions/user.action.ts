@@ -30,6 +30,7 @@ export async function createUser(userData: CreateUserParams) {
     return newUser
   } catch (error) {
     console.log('Error: ', error)
+    throw error
   }
 }
 
@@ -45,6 +46,7 @@ export async function updateUser(params: UpdateUserParams) {
     revalidatePath(path)
   } catch (error) {
     console.log('Error: ', error)
+    throw error
   }
 }
 
@@ -70,9 +72,10 @@ export async function deleteUser(params: DeleteUserParams) {
     // TODO: delete user answers, comments, etc...
 
     const deletedUser = await User.findByIdAndDelete(user._id)
-    
+
     return deletedUser
   } catch (error) {
     console.log('Error: ', error)
+    throw error
   }
 }
